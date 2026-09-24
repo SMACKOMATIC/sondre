@@ -4,286 +4,48 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sondre Klæboe Jacobsen</title>
-<meta name="description" content="Sondre Klæboe Jacobsen — sivilingeniør, gründer og kommende romfarer.">
+<meta name="description" content="Sondre Klæboe Jacobsen — sivilingeniør, gründer og kommende romfarer. Reisen fra Helgeland mot verdensrommet.">
+<meta name="theme-color" content="#02040a">
+<meta property="og:title" content="Sondre Klæboe Jacobsen">
+<meta property="og:description" content="Sivilingeniør, gründer og kommende romfarer. Engineer, entrepreneur and future astronaut.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sondre.com/">
+<meta property="og:image" content="https://sondre.com/assets/img/og.jpg">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --bg:#0a0d14;
-    --text:#e8edf2;
-    --muted:#9bb0c4;
-    --accent:#7db4e6;
-    --maxw:760px;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Inter',sans-serif;
-    line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-    overflow-x:hidden;
-  }
-  /* deep-space background: real NASA/ESA photos + canvas stars */
-  #space-bg{
-    position:fixed;
-    inset:0;
-    z-index:-3;
-    display:block;
-    overflow:hidden;
-    background:var(--bg);
-  }
-  #space-bg .milkyway{
-    position:absolute;
-    inset:-18%;
-    background:url('milkyway.jpg') center 42% / cover no-repeat;
-    transform:rotate(-12deg);
-    opacity:.8;
-    mix-blend-mode:screen;
-    filter:brightness(1.05) saturate(1.15);
-  }
-  #space-bg .galaxy{
-    position:absolute;
-    border-radius:50%;
-    background-size:cover;
-    background-position:center;
-    opacity:.85;
-    mix-blend-mode:screen;
-    -webkit-mask-image:radial-gradient(closest-side, rgba(0,0,0,1), transparent 78%);
-    mask-image:radial-gradient(closest-side, rgba(0,0,0,1), transparent 78%);
-  }
-  #space-bg .galaxy.andromeda{
-    width:52vw;height:52vw;top:2%;right:0%;
-    background-image:url('andromeda.jpg');
-    transform:rotate(-16deg);
-  }
-  #space-bg .galaxy.whirlpool{
-    width:38vw;height:38vw;bottom:4%;left:0%;
-    background-image:url('whirlpool_m51.jpg');
-    transform:rotate(6deg);
-  }
-  #space-bg canvas{
-    position:absolute;inset:0;
-    width:100%;height:100%;display:block;
-  }
-  #space-bg .vignette{
-    position:absolute;inset:0;
-    background:radial-gradient(ellipse at 50% 35%, rgba(5,7,12,0) 0%, rgba(5,7,12,.25) 65%, rgba(5,7,12,.55) 100%);
-  }
-  .space-credit{
-    position:fixed;left:10px;bottom:6px;z-index:1;
-    font-size:10px;letter-spacing:.3px;color:rgba(155,176,196,0.35);
-    pointer-events:none;
-  }
-
-  /* romskip-cursor (spaceship cursor) */
-  #cursor-trail{
-    position:fixed;inset:0;
-    width:100%;height:100%;
-    z-index:9998;
-    pointer-events:none;
-  }
-  #rocket-cursor{
-    position:fixed;
-    top:0;left:0;
-    width:34px;height:34px;
-    margin:-17px 0 0 -17px;
-    pointer-events:none;
-    z-index:9999;
-    opacity:0;
-    transition:opacity .25s ease;
-    filter:drop-shadow(0 0 6px rgba(125,180,230,0.55));
-  }
-  #rocket-cursor.visible{opacity:1;}
-  #rocket-cursor svg{display:block;width:100%;height:100%;}
-  #rocket-cursor .flame{
-    transform-origin:32px 40px;
-    animation:flame-flicker .16s infinite alternate;
-  }
-  #rocket-cursor.hover{transform:scale(1.25);}
-  @keyframes flame-flicker{
-    from{ transform:scaleY(.8); opacity:.75;}
-    to{ transform:scaleY(1.2); opacity:1;}
-  }
-  html.has-fine-pointer, html.has-fine-pointer body, html.has-fine-pointer a, html.has-fine-pointer button{
-    cursor:none;
-  }
-  @media (prefers-reduced-motion: reduce){
-    #rocket-cursor .flame{animation:none;}
-  }
-
-  /* NAV */
-  nav{
-    position:sticky;top:0;z-index:100;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:16px 28px;
-    background:rgba(10,13,20,0.82);
-    backdrop-filter:blur(8px);
-    border-bottom:1px solid rgba(125,180,230,0.12);
-  }
-  .brand{font-family:'Orbitron',sans-serif;font-weight:700;font-size:18px;letter-spacing:1px;}
-  .nav-right{display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
-  .nav-links{display:flex;gap:20px;flex-wrap:wrap;}
-  .nav-links a{
-    color:var(--muted);text-decoration:none;font-size:14px;
-    letter-spacing:.3px;transition:color .2s;
-  }
-  .nav-links a:hover{color:var(--accent);}
-  .lang{display:flex;gap:6px;align-items:center;}
-  .lang button{
-    background:none;border:1px solid rgba(125,180,230,0.3);
-    color:var(--muted);font-family:'Inter',sans-serif;font-size:12px;
-    padding:4px 9px;border-radius:5px;cursor:pointer;transition:all .2s;
-  }
-  .lang button.active{color:#fff;border-color:var(--accent);background:rgba(125,180,230,0.15);}
-
-  /* HERO */
-  header.hero{
-    position:relative;min-height:92vh;
-    display:flex;align-items:center;justify-content:center;text-align:center;
-    padding:80px 24px;
-  }
-  header.hero::before{
-    content:"";position:absolute;inset:0;z-index:0;
-    background:url('Jagerfly.jpg') center/cover no-repeat;
-  }
-  header.hero::after{
-    content:"";position:absolute;inset:0;z-index:1;
-    background:linear-gradient(to bottom, rgba(10,13,20,0.55), rgba(10,13,20,0.45) 40%, rgba(10,13,20,0.92));
-  }
-  .hero-inner{position:relative;z-index:2;max-width:680px;}
-  .hero-inner h1{
-    font-family:'Orbitron',sans-serif;font-weight:700;
-    font-size:clamp(28px,5vw,52px);letter-spacing:1.5px;line-height:1.15;
-    text-shadow:0 2px 24px rgba(0,0,0,0.6);
-  }
-  .hero-inner .sub{
-    color:var(--accent);font-size:clamp(15px,2vw,19px);
-    margin-top:14px;letter-spacing:.4px;
-  }
-  .hero-inner .intro{
-    margin-top:22px;font-size:16px;color:#dce4ec;
-    text-shadow:0 1px 12px rgba(0,0,0,0.7);
-  }
-  .btn{
-    display:inline-block;margin-top:30px;
-    padding:12px 26px;border:1px solid var(--accent);border-radius:8px;
-    color:#fff;text-decoration:none;font-size:14px;letter-spacing:.5px;
-    transition:all .2s;
-  }
-  .btn:hover{background:rgba(125,180,230,0.18);}
-
-  /* SECTIONS */
-  section{padding:72px 24px;background:rgba(10,13,20,.16);}
-  section:nth-of-type(even){background:rgba(13,20,32,.22);}
-  .wrap{max-width:var(--maxw);margin:0 auto;}
-  h2{
-    font-family:'Orbitron',sans-serif;font-weight:500;
-    font-size:clamp(22px,3.5vw,32px);letter-spacing:1px;margin-bottom:28px;
-  }
-  h3{
-    font-family:'Orbitron',sans-serif;font-weight:500;
-    font-size:17px;letter-spacing:.6px;margin:34px 0 12px;color:#fff;
-  }
-  p{margin-bottom:18px;color:#d6dee7;}
-  p:last-child{margin-bottom:0;}
-
-  /* IMAGES — one per row, full width */
-  figure{margin:34px 0;}
-  figure img{
-    width:100%;height:auto;display:block;border-radius:10px;
-    border:1px solid rgba(125,180,230,0.12);
-  }
-  /* small documentation row */
-  .docs{display:flex;flex-wrap:wrap;gap:16px;margin:30px 0 0;}
-  .docs img{
-    flex:1 1 180px;max-width:240px;height:auto;border-radius:8px;
-    border:1px solid rgba(125,180,230,0.12);
-  }
-
-  /* MEDIA labels */
-  .media-row{
-    display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:26px;
-    color:var(--muted);font-size:13px;letter-spacing:.4px;
-  }
-  .media-row span{white-space:nowrap;}
-
-  /* CONTACT */
-  .contact-links{display:flex;flex-wrap:wrap;gap:24px;margin-top:24px;}
-  .contact-links a{
-    color:var(--accent);text-decoration:none;font-size:15px;
-    display:flex;align-items:center;gap:8px;transition:opacity .2s;
-  }
-  .contact-links a:hover{opacity:.7;}
-  .contact-links svg{width:20px;height:20px;fill:currentColor;}
-
-  .slogan{
-    max-width:var(--maxw);margin:0 auto;padding:50px 24px;text-align:center;
-  }
-  .slogan p{
-    font-family:'Orbitron',sans-serif;font-weight:500;
-    font-size:clamp(17px,2.6vw,24px);letter-spacing:.8px;
-    color:var(--accent);line-height:1.45;margin:0;
-  }
-  .slogan small{
-    display:block;margin-top:16px;font-family:'Inter',sans-serif;
-    font-size:14px;color:var(--muted);letter-spacing:0;line-height:1.65;
-  }
-  .quote{
-    border-left:2px solid var(--accent);
-    padding:6px 0 6px 18px;margin:34px 0;
-    font-family:'Orbitron',sans-serif;font-weight:500;
-    font-size:clamp(15px,2vw,19px);letter-spacing:.5px;color:#fff;line-height:1.4;
-  }
-  footer{
-    text-align:center;padding:40px 24px;
-    color:var(--muted);font-size:13px;
-    border-top:1px solid rgba(125,180,230,0.1);
-  }
-
-  /* Language switching — explicit and consistent */
-  html[lang="no"] [data-lang-en]{display:none !important;}
-  html[lang="en"] [data-lang-no]{display:none !important;}
-
-  @media(max-width:600px){
-    nav{flex-direction:column;gap:12px;align-items:flex-start;}
-    .nav-right{width:100%;justify-content:space-between;}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script type="importmap">
+  { "imports": { "three": "./vendor/three/three.module.min.js", "three/addons/": "./vendor/three/addons/" } }
+</script>
+<script type="module" src="assets/js/main.js"></script>
 </head>
 <body>
 
-<div id="space-bg" aria-hidden="true">
-  <div class="milkyway"></div>
-  <div class="galaxy andromeda"></div>
-  <div class="galaxy whirlpool"></div>
-  <canvas id="star-canvas"></canvas>
-  <div class="vignette"></div>
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<div id="loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-orbit"></div>
+    <span data-lang-no>Klargjør oppskyting</span><span data-lang-en>Preparing launch</span>
+    <span class="loader-count" id="loader-pct">0</span>
+  </div>
 </div>
-<div class="space-credit">Bakgrunn: ESO/S. Brunier &middot; NASA/ESA Hubble (M31 &amp; M51)</div>
 
 <canvas id="cursor-trail" aria-hidden="true"></canvas>
-
 <div id="rocket-cursor" aria-hidden="true">
   <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
     <defs>
       <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#f4f9ff"/>
-        <stop offset="55%" stop-color="#9fc4e8"/>
-        <stop offset="100%" stop-color="#4d78a8"/>
+        <stop offset="0%" stop-color="#f4f9ff"/><stop offset="55%" stop-color="#9fc4e8"/><stop offset="100%" stop-color="#4d78a8"/>
       </linearGradient>
       <linearGradient id="flameGrad" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="#ffd27a"/>
-        <stop offset="100%" stop-color="#ff6a3d" stop-opacity="0"/>
+        <stop offset="0%" stop-color="#ffd27a"/><stop offset="100%" stop-color="#ff6a3d" stop-opacity="0"/>
       </linearGradient>
     </defs>
-    <g class="flame">
-      <path d="M27 44 Q32 60 37 44 Q32 50 27 44Z" fill="url(#flameGrad)"/>
-    </g>
+    <g class="flame"><path d="M27 44 Q32 60 37 44 Q32 50 27 44Z" fill="url(#flameGrad)"/></g>
     <path d="M22 37 L13 48 L24 43Z" fill="#5a86b5"/>
     <path d="M42 37 L51 48 L40 43Z" fill="#5a86b5"/>
     <path d="M32 4 C41 15 43 27 40 42 L24 42 C21 27 23 15 32 4Z" fill="url(#bodyGrad)" stroke="#e8f1fb" stroke-width="1"/>
@@ -291,405 +53,276 @@
   </svg>
 </div>
 
-<nav>
-  <div class="brand">sondre.com</div>
+<header class="topnav">
+  <a class="brand" href="#top">SONDRE<span>.</span>COM</a>
   <div class="nav-right">
-    <div class="nav-links">
-      <a href="#om"><span class="inline" data-lang-no>Om meg</span><span class="inline" data-lang-en>About</span></a>
-      <a href="#rom"><span class="inline" data-lang-no>Reisen mot verdensrommet</span><span class="inline" data-lang-en>The road to space</span></a>
-      <a href="#arbeid"><span class="inline" data-lang-no>Arbeid</span><span class="inline" data-lang-en>Work</span></a>
-      <a href="#film"><span class="inline" data-lang-no>Film</span><span class="inline" data-lang-en>Film</span></a>
-      <a href="#media"><span class="inline" data-lang-no>I media</span><span class="inline" data-lang-en>In the media</span></a>
-      <a href="#kontakt"><span class="inline" data-lang-no>Kontakt</span><span class="inline" data-lang-en>Contact</span></a>
+    <ul class="nav-links">
+      <li><a href="#om"><span data-lang-no>Om meg</span><span data-lang-en>About</span></a></li>
+      <li><a href="#rom"><span data-lang-no>Reisen</span><span data-lang-en>The road</span></a></li>
+      <li><a href="#esa">ESA</a></li>
+      <li><a href="#arbeid"><span data-lang-no>Arbeid</span><span data-lang-en>Work</span></a></li>
+      <li><a href="#film">Film</a></li>
+      <li><a href="#kontakt"><span data-lang-no>Kontakt</span><span data-lang-en>Contact</span></a></li>
+    </ul>
+    <div class="lang" role="group" aria-label="Språk / Language">
+      <button type="button" data-set-lang="no" aria-pressed="true">NO</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
     </div>
-    <div class="lang">
-      <button id="btn-no" class="active" onclick="setLang('no')">NO</button>
-      <button id="btn-en" onclick="setLang('en')">EN</button>
-    </div>
-  </div>
-</nav>
-
-<header class="hero">
-  <div class="hero-inner">
-    <h1>Sondre Klæboe Jacobsen</h1>
-    <div class="sub">
-      <span data-lang-no>Sivilingeniør, gründer og kommende romfarer</span>
-      <span data-lang-en>Engineer, entrepreneur and future astronaut</span>
-    </div>
-    <div class="intro">
-      <span data-lang-no>I over tjue år har jeg jobbet mot ett mål: å se jorden fra verdensrommet. Mellom der og her har jeg startet selskaper, kommersialisert forskning, spilt i vikingfilmer og tatt med teknologi fra laben og ut i verden. Dette er reisen så langt.</span>
-      <span data-lang-en>For over twenty years I have worked toward one goal: to see the Earth from space. Along the way I have founded companies, commercialised research, acted in viking films and carried technology from the lab out into the world. This is the journey so far.</span>
-    </div>
-    <a class="btn" href="#om">
-      <span class="inline" data-lang-no>Bli kjent med meg</span>
-      <span class="inline" data-lang-en>Get to know me</span>
-    </a>
   </div>
 </header>
 
-<div class="slogan">
-  <p>"I don't have dreams. I only have plans."</p>
-  <small data-lang-no>Da jeg som barn tenkte på verdensrommet, var det aldri en drøm. Det var en plan, og den har jeg fulgt siden.</small>
-  <small data-lang-en>When I thought about space as a child, it was never a dream. It was a plan, and I have followed it ever since.</small>
+<aside class="hud" aria-hidden="true">
+  <div class="hud-chapter"><span id="hud-ch">00 / 09</span><span id="hud-name"></span></div>
+  <div class="hud-row coords"><span>LAT <b id="hud-lat">—</b></span><span>LON <b id="hud-lon">—</b></span></div>
+  <div class="hud-row"><span>ALT <b id="hud-alt">—</b></span></div>
+  <div class="hud-track"><div id="hud-bar"></div></div>
+</aside>
+
+<nav class="rail" id="rail" aria-label="Kapitler / Chapters"></nav>
+
+<div class="geo-labels" aria-hidden="true">
+  <div class="geo-label" data-label="sandnessjoen"><span>Sandnessjøen<small>66.02° N · 12.63° <i data-lang-no>Ø</i><i data-lang-en>E</i></small></span></div>
+  <div class="geo-label" data-label="mojave"><span>Mojave, California<small>XCOR Aerospace</small></span></div>
+  <div class="geo-label" data-label="iss"><span>ISS<small data-lang-no>Den internasjonale romstasjonen</small><small data-lang-en>International Space Station</small></span></div>
+  <div class="geo-label" data-label="moon"><span><i data-lang-no>Månen</i><i data-lang-en>The Moon</i><small>384 400 km</small></span></div>
 </div>
 
-<section id="om">
-  <div class="wrap">
-    <h2><span data-lang-no>Om meg</span><span data-lang-en>About me</span></h2>
-    <div data-lang-no>
-      <p>Jeg vokste opp på Helgeland i Nord-Norge, men ble tidlig en verdensborger. Min fars arbeid for Det Norske Veritas tok familien til Nederland, Australia og Sør-Korea i barneårene. I Norge var det Sandnessjøen som var hjemme.</p>
-      <p>Nysgjerrigheten startet tidlig. Fem år gammel spurte jeg faren min hvor stort universet var. Han svarte at det var uendelig, og at det utvidet seg med lysets hastighet. Jeg klarte ikke å forestille meg det, men jeg skjønte at det var noe jeg måtte finne ut av. Det spørsmålet har drevet meg siden.</p>
-      <p>I 1995 flyttet jeg til Trondheim for å ta en sivilingeniørgrad i marin teknikk ved NTNU, med fordypning innen både olje og gass og oppdrettsteknologi. Siden har jeg bygget en karriere i skjæringspunktet mellom teknologi, forretning og forskning, og holdt fast ved drømmen om verdensrommet hele veien.</p>
-    </div>
-    <div data-lang-en>
-      <p>I grew up on Helgeland in Northern Norway, but became a citizen of the world early on. My father's work for Det Norske Veritas took the family to the Netherlands, Australia and South Korea during my childhood. In Norway, Sandnessjøen was home.</p>
-      <p>My curiosity started early. At five years old I asked my father how big the universe was. He answered that it was infinite, and that it was expanding at the speed of light. I could not picture it, but I understood that this was something I had to figure out. That question has driven me ever since.</p>
-      <p>In 1995 I moved to Trondheim to earn a master's degree in marine technology at NTNU, specialising in both oil and gas and aquaculture technology. Since then I have built a career at the intersection of technology, business and research, holding on to the dream of space the whole way.</p>
-    </div>
-    <figure><img src="Gala.jpg" alt="Sondre Klæboe Jacobsen"></figure>
-  </div>
-</section>
+<main>
 
-<section id="rom">
-  <div class="wrap">
-    <h2><span data-lang-no>Reisen mot verdensrommet</span><span data-lang-en>The road to space</span></h2>
-    <div data-lang-no>
-      <p>Siden Juri Gagarin dro opp i 1961, har færre enn 700 mennesker vært i verdensrommet. Norge har foreløpig ingen. Det har jeg tenkt å gjøre noe med.</p>
-      <p>Veien har vært lang og full av omveier. Allerede i 1998 var jeg blant de aller første som sikret seg billett hos Virgin Galactic. Senere kjøpte jeg plass på XCORs romfly Lynx Mark II, og besøkte fabrikken i Mojaveørkenen, prøvesatte fartøyet og snakket med astronauter som hadde tilbrakt nær tusen timer i bane rundt jorden. Som en del av treningen har jeg gjennomført og fått sertifisert vektløshet hos Zero Gravity Corporation, og fløyet som copilot i jagerfly for å kjenne romreisens G-krefter på kroppen. Ingen av selskapene nådde helt frem, men målet sto fast.</p>
+  <!-- 00 · HERO -->
+  <section id="top" class="chapter hero" data-chapter="0" data-name-no="Oppdrag" data-name-en="Mission">
+    <div class="hero-inner">
+      <p class="kicker"><span data-lang-no>Oppdragslogg · sondre.com</span><span data-lang-en>Mission log · sondre.com</span></p>
+      <h1>Sondre Klæboe Jacobsen
+        <span class="thin"><span data-lang-no>Sivilingeniør · gründer · kommende romfarer</span><span data-lang-en>Engineer · entrepreneur · future astronaut</span></span>
+      </h1>
+      <p class="intro">
+        <span data-lang-no>I over tjue år har jeg jobbet mot ett mål: å se jorden fra verdensrommet. Mellom der og her har jeg startet selskaper, kommersialisert forskning, spilt i vikingfilmer og tatt med teknologi fra laben og ut i verden. Dette er reisen så langt.</span>
+        <span data-lang-en>For over twenty years I have worked toward one goal: to see the Earth from space. Along the way I have founded companies, commercialised research, acted in viking films and carried technology from the lab out into the world. This is the journey so far.</span>
+      </p>
+      <p class="motto">"I don't have dreams. I only have plans."
+        <small data-lang-no>Da jeg som barn tenkte på verdensrommet, var det aldri en drøm. Det var en plan, og den har jeg fulgt siden.</small>
+        <small data-lang-en>When I thought about space as a child, it was never a dream. It was a plan, and I have followed it ever since.</small>
+      </p>
     </div>
-    <div data-lang-en>
-      <p>Since Yuri Gagarin went up in 1961, fewer than 700 people have been to space. Norway has none yet. I intend to change that.</p>
-      <p>The road has been long and full of detours. As early as 1998 I was among the very first to secure a ticket with Virgin Galactic. Later I bought a seat on XCOR's spaceplane Lynx Mark II, visited the factory in the Mojave Desert, sat in the craft and spoke with astronauts who had spent nearly a thousand hours in orbit. As part of my training I have completed and been certified in weightlessness with Zero Gravity Corporation, and flown as co-pilot in a fighter jet to feel the G-forces of spaceflight on my own body. Neither company made it all the way, but the goal held firm.</p>
-    </div>
+    <a class="scroll-cue" href="#om"><span data-lang-no>Rull for å starte</span><span data-lang-en>Scroll to begin</span><i></i></a>
+  </section>
 
-    <figure><img src="ZeroG-plane.jpg" alt="Sondre foran G-Force One"></figure>
-    <figure><img src="ZeroG-weightless.jpg" alt="Vektløshet ombord"></figure>
-    <figure><img src="XCOR-rocket.jpg" alt="Sondre ved XCOR Lynx-romflyet"></figure>
-    <figure><img src="ISS.JPG" alt="Replika av Den internasjonale romstasjonen"></figure>
-    <figure><img src="NASA.JPG" alt="Sondre med NASAs humanoide robot Robonaut"></figure>
+  <!-- 01 · ORIGIN -->
+  <section id="om" class="chapter" data-chapter="1" data-name-no="Opphav" data-name-en="Origin">
+    <div class="panel">
+      <p class="kicker"><span data-lang-no>01 · Opphav</span><span data-lang-en>01 · Origin</span></p>
+      <h2><span data-lang-no>Om meg</span><span data-lang-en>About me</span></h2>
+      <img class="portrait" src="assets/img/gala.jpg" alt="Sondre Klæboe Jacobsen i smoking" width="1000" height="1500" loading="lazy" data-zoom>
+      <div data-lang-no>
+        <p>Jeg vokste opp på Helgeland i Nord-Norge, men ble tidlig en verdensborger. Min fars arbeid for Det Norske Veritas tok familien til Nederland, Australia og Sør-Korea i barneårene. I Norge var det Sandnessjøen som var hjemme.</p>
+        <p>Nysgjerrigheten startet tidlig. Fem år gammel spurte jeg faren min hvor stort universet var.</p>
+      </div>
+      <div data-lang-en>
+        <p>I grew up on Helgeland in Northern Norway, but became a citizen of the world early on. My father's work for Det Norske Veritas took the family to the Netherlands, Australia and South Korea during my childhood. In Norway, Sandnessjøen was home.</p>
+        <p>My curiosity started early. At five years old I asked my father how big the universe was.</p>
+      </div>
+      <p class="pullquote"><span data-lang-no>Hvor stort er universet?</span><span data-lang-en>How big is the universe?</span></p>
+      <div data-lang-no>
+        <p>Han svarte at det var uendelig, og at det utvidet seg med lysets hastighet. Jeg klarte ikke å forestille meg det, men jeg skjønte at det var noe jeg måtte finne ut av. Det spørsmålet har drevet meg siden.</p>
+        <p>I 1995 flyttet jeg til Trondheim for å ta en sivilingeniørgrad i marin teknikk ved NTNU, med fordypning innen både olje og gass og oppdrettsteknologi. Siden har jeg bygget en karriere i skjæringspunktet mellom teknologi, forretning og forskning, og holdt fast ved drømmen om verdensrommet hele veien.</p>
+      </div>
+      <div data-lang-en>
+        <p>He answered that it was infinite, and that it was expanding at the speed of light. I could not picture it, but I understood that this was something I had to figure out. That question has driven me ever since.</p>
+        <p>In 1995 I moved to Trondheim to earn a master's degree in marine technology at NTNU, specialising in both oil and gas and aquaculture technology. Since then I have built a career at the intersection of technology, business and research, holding on to the dream of space the whole way.</p>
+      </div>
+    </div>
+  </section>
 
-    <div data-lang-no>
-      <p>I 2021 ble jeg tatt ut som én av to nordmenn til sluttfasen i Den europeiske romorganisasjonens (ESA) astronautopptak, av over 23 000 søkere fra hele verden. Jeg gikk ikke helt til topps, og Norge fikk ingen astronaut denne gangen. Men det endret ikke planen.</p>
-      <p>Jeg hadde aldri tenkt å vente på at noen skulle velge meg. Planen har alltid vært å betale for reisen selv. Det er en av grunnene til at jeg jobber slik jeg gjør i oppstartsbransjen: jeg bygger selskaper mot en exit som kan ta meg ut dit. Jeg har i utgangspunktet ingen drømmer, bare planer. Når jeg vil oppnå noe, legger jeg alltid en plan.</p>
+  <!-- 02 · TRAINING -->
+  <section id="rom" class="chapter right" data-chapter="2" data-name-no="Trening" data-name-en="Training">
+    <div class="panel wide">
+      <p class="kicker"><span data-lang-no>02 · Trening</span><span data-lang-en>02 · Training</span></p>
+      <h2><span data-lang-no>Reisen mot verdensrommet</span><span data-lang-en>The road to space</span></h2>
+      <p class="lead" data-lang-no>Veien har vært lang og full av omveier.</p>
+      <p class="lead" data-lang-en>The road has been long and full of detours.</p>
+      <ol class="log">
+        <li>
+          <span class="tag">1998</span>
+          <h3>Virgin Galactic</h3>
+          <p data-lang-no>Allerede i 1998 var jeg blant de aller første som sikret seg billett hos Virgin Galactic.</p>
+          <p data-lang-en>As early as 1998 I was among the very first to secure a ticket with Virgin Galactic.</p>
+        </li>
+        <li>
+          <span class="tag">XCOR · MOJAVE</span>
+          <h3>Lynx Mark II</h3>
+          <p data-lang-no>Senere kjøpte jeg plass på XCORs romfly Lynx Mark II, og besøkte fabrikken i Mojaveørkenen, prøvesatte fartøyet og snakket med astronauter som hadde tilbrakt nær tusen timer i bane rundt jorden.</p>
+          <p data-lang-en>Later I bought a seat on XCOR's spaceplane Lynx Mark II, visited the factory in the Mojave Desert, sat in the craft and spoke with astronauts who had spent nearly a thousand hours in orbit.</p>
+          <figure><img src="assets/img/xcor-lynx.jpg" alt="Sondre ved XCOR Lynx-romflyet i Mojave" width="1600" height="902" loading="lazy" data-zoom></figure>
+        </li>
+        <li>
+          <span class="tag">ZERO-G</span>
+          <h3><span data-lang-no>Vektløshet</span><span data-lang-en>Weightlessness</span></h3>
+          <p data-lang-no>Som en del av treningen har jeg gjennomført og fått sertifisert vektløshet hos Zero Gravity Corporation, om bord i G-Force One.</p>
+          <p data-lang-en>As part of my training I have completed and been certified in weightlessness with Zero Gravity Corporation, on board G-Force One.</p>
+          <div class="gallery">
+            <img src="assets/img/zerog-plane.jpg" alt="Sondre foran flyet G-Force One" width="1600" height="1067" loading="lazy" data-zoom>
+            <img src="assets/img/zerog-weightless.jpg" alt="Vektløshet om bord i G-Force One" width="1600" height="1067" loading="lazy" data-zoom>
+          </div>
+        </li>
+        <li>
+          <span class="tag">G-FORCE</span>
+          <h3><span data-lang-no>Jagerfly</span><span data-lang-en>Fighter jet</span></h3>
+          <p data-lang-no>Jeg har fløyet som copilot i jagerfly for å kjenne romreisens G-krefter på kroppen.</p>
+          <p data-lang-en>I have flown as co-pilot in a fighter jet to feel the G-forces of spaceflight on my own body.</p>
+          <figure><img src="assets/img/fighter-jet.jpg" alt="Sondre i cockpiten på et jagerfly" width="1400" height="1345" loading="lazy" data-zoom></figure>
+        </li>
+      </ol>
+      <p data-lang-no>Ingen av selskapene nådde helt frem, men målet sto fast.</p>
+      <p data-lang-en>Neither company made it all the way, but the goal held firm.</p>
+      <div class="docs">
+        <img src="assets/img/zerog-certificate.jpg" alt="Zero Gravity-sertifikat" width="1000" height="750" loading="lazy" data-zoom>
+        <img src="assets/img/xcor-patch.jpg" alt="XCOR-emblem" width="900" height="675" loading="lazy" data-zoom>
+        <img src="assets/img/genai-diploma.jpg" alt="Generative AI-diplom, Outskill" width="1000" height="631" loading="lazy" data-zoom>
+      </div>
     </div>
-    <div data-lang-en>
-      <p>In 2021 I was selected as one of two Norwegians for the final stage of the European Space Agency's (ESA) astronaut selection, out of more than 23,000 applicants worldwide. I did not make it all the way to the top, and Norway got no astronaut this time. But it did not change the plan.</p>
-      <p>I never intended to wait for someone to choose me. The plan has always been to pay for the journey myself. That is one of the reasons I work the way I do in the startup world: I build companies toward an exit that can take me out there. I don't really have dreams, only plans. When I want to achieve something, I always make a plan.</p>
-    </div>
+  </section>
 
-    <div class="docs">
-      <img src="ZEROG-certificate.jpg" alt="Zero Gravity-sertifikat">
-      <img src="XCOR-patch.jpg" alt="XCOR-emblem">
-      <img src="Generative-AI-SondreJacobsen_diploma.gif" alt="Generative AI-diplom, Outskill">
+  <!-- 03 · ESA -->
+  <section id="esa" class="chapter tall" data-chapter="3" data-name-no="Uttak" data-name-en="Selection">
+    <div class="panel">
+      <p class="kicker"><span data-lang-no>03 · Uttak</span><span data-lang-en>03 · Selection</span></p>
+      <h2><span data-lang-no>ESAs astronautopptak</span><span data-lang-en>ESA astronaut selection</span></h2>
+      <div class="counter" id="esa-counter" aria-hidden="true">
+        <span class="counter-num" id="esa-count">23 000</span>
+        <span class="counter-label">
+          <span class="start"><span data-lang-no>søkere fra hele verden</span><span data-lang-en>applicants worldwide</span></span>
+          <span class="end"><span data-lang-no>nordmenn i sluttfasen</span><span data-lang-en>Norwegians in the final stage</span></span>
+        </span>
+      </div>
+      <p data-lang-no>I 2021 ble jeg tatt ut som én av to nordmenn til sluttfasen i Den europeiske romorganisasjonens (ESA) astronautopptak, av over 23 000 søkere fra hele verden. Jeg gikk ikke helt til topps, og Norge fikk ingen astronaut denne gangen. Men det endret ikke planen.</p>
+      <p data-lang-en>In 2021 I was selected as one of two Norwegians for the final stage of the European Space Agency's (ESA) astronaut selection, out of more than 23,000 applicants worldwide. I did not make it all the way to the top, and Norway got no astronaut this time. But it did not change the plan.</p>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="arbeid">
-  <div class="wrap">
-    <h2><span data-lang-no>Arbeid</span><span data-lang-en>Work</span></h2>
-    <div data-lang-no>
-      <p>Siden 2004 har jeg jobbet med technology transfer, helt fra oppstarten av NTNU Technology Transfer, der jeg var med fra begynnelsen. Spisskompetansen min er å se hvilke ideer som faktisk er gode, og å bygge vei fra forskning til marked. Jeg har bred og dyp erfaring med patentering, avanserte patentstrategier, freedom to operate og kommersielle strategier, med et særlig fokus på olje og gass og oppdrettsteknologi.</p>
-      <h3>InnSep og Lynx Kitchen</h3>
-      <p>Jeg er daglig leder i InnSep, som har utviklet en separasjonsteknologi som skiller væske fra gass på en langt enklere måte enn før, en idé så enkel at det er vanskelig å tro ingen tenkte på den tidligere. Jeg leder også Lynx Kitchen, en spinout fra InnSep der teknologien er tilpasset kjøkkenventilasjon. Her har vi inngått partnerskap med Mælen Blikk og Ventilasjon AS, som har enerett på produksjon og salg i Norge, og målet er å ta løsningen til resten av verden.</p>
-      <h3>Aider</h3>
-      <p>Jeg jobber også deltid i innovasjonsgruppen i Aider AS, der vi hjelper selskaper, store og små, med søknader til Enova og Forskningsrådet, patentering, strategisk oppbygging, kommersialisering og management for hire.</p>
-      <h3>Kunstig intelligens</h3>
-      <p>Jeg er fascinert av kunstig intelligens og tar jevnlig kurs for å styrke kunnskapen og erfaringen min, blant annet Outskills sertifisering som Generative AI-generalist. Jeg bruker AI i stadig større grad for å få mer ut av erfaringen jeg har bygget opp gjennom årene.</p>
-      <p>Tidligere har jeg blant annet vært medgründer av teknologioverføringskontoret ved NTNU, jobbet som innovasjonsrådgiver og senior prosjektleder i en rekke teknologiselskaper, og undervist i mekanikk og innovasjon ved NTNU.</p>
-      <div class="quote">"Hope is not a strategy."</div>
+  <!-- 04 · LAUNCH -->
+  <section id="plan" class="chapter tall right" data-chapter="4" data-name-no="Oppskyting" data-name-en="Launch">
+    <div class="panel">
+      <p class="kicker"><span data-lang-no>04 · Oppskyting</span><span data-lang-en>04 · Launch</span></p>
+      <h2><span data-lang-no>Planen</span><span data-lang-en>The plan</span></h2>
+      <p class="lead" data-lang-no>Siden Juri Gagarin dro opp i 1961, har færre enn 700 mennesker vært i verdensrommet. Norge har foreløpig ingen. Det har jeg tenkt å gjøre noe med.</p>
+      <p class="lead" data-lang-en>Since Yuri Gagarin went up in 1961, fewer than 700 people have been to space. Norway has none yet. I intend to change that.</p>
+      <p data-lang-no>Jeg hadde aldri tenkt å vente på at noen skulle velge meg. Planen har alltid vært å betale for reisen selv. Det er en av grunnene til at jeg jobber slik jeg gjør i oppstartsbransjen: jeg bygger selskaper mot en exit som kan ta meg ut dit. Jeg har i utgangspunktet ingen drømmer, bare planer. Når jeg vil oppnå noe, legger jeg alltid en plan.</p>
+      <p data-lang-en>I never intended to wait for someone to choose me. The plan has always been to pay for the journey myself. That is one of the reasons I work the way I do in the startup world: I build companies toward an exit that can take me out there. I don't really have dreams, only plans. When I want to achieve something, I always make a plan.</p>
     </div>
-    <div data-lang-en>
-      <p>Since 2004 I have worked in technology transfer, right from the founding of NTNU Technology Transfer, where I was involved from the start. My core strength is seeing which ideas are genuinely good, and building the path from research to market. I have broad and deep experience with patenting, advanced patent strategies, freedom to operate and commercial strategy, with a particular focus on oil and gas and aquaculture technology.</p>
-      <h3>InnSep and Lynx Kitchen</h3>
-      <p>I am CEO of InnSep, which has developed a separation technology that separates liquid from gas in a far simpler way than before, an idea so simple it is hard to believe no one thought of it earlier. I also lead Lynx Kitchen, a spinout from InnSep where the technology is adapted for kitchen ventilation. Here we have entered a partnership with Mælen Blikk og Ventilasjon AS, who hold exclusive rights to produce and sell it in Norway, and the goal is to take the solution to the rest of the world.</p>
-      <h3>Aider</h3>
-      <p>I also work part-time in the innovation group at Aider AS, where we help companies, large and small, with applications to Enova and the Research Council of Norway, patenting, strategic development, commercialisation and management for hire.</p>
-      <h3>Artificial intelligence</h3>
-      <p>I am fascinated by artificial intelligence and regularly take courses to strengthen my knowledge and experience, among them Outskill's certification as a Generative AI Generalist. I use AI to an increasing degree to get more out of the experience I have built up over the years.</p>
-      <p>Earlier I have, among other things, co-founded the technology transfer office at NTNU, worked as an innovation advisor and senior project manager in a range of technology companies, and taught mechanics and innovation at NTNU.</p>
-      <div class="quote">"Hope is not a strategy."</div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section id="film">
-  <div class="wrap">
-    <h2><span data-lang-no>Film</span><span data-lang-en>Film</span></h2>
-    <div data-lang-no>
-      <p>Ved siden av teknologien har jeg en fot i filmverdenen. Sammen med regissør Ole Fredrik Wannebo stiftet jeg produksjonsselskapet Ragnarok Film, med ambisjon om å skildre vikingtiden og den norrøne mytologien så historisk og mytologisk korrekt som mulig, langt unna Hollywoods versjon.</p>
+  <!-- 05 · ISS -->
+  <section id="iss" class="chapter" data-chapter="5" data-name-no="Bane" data-name-en="Orbit">
+    <div class="panel">
+      <p class="kicker"><span data-lang-no>05 · Bane</span><span data-lang-en>05 · Orbit</span></p>
+      <h2><span data-lang-no>NASA og romstasjonen</span><span data-lang-en>NASA and the space station</span></h2>
+      <p data-lang-no>Jeg har besøkt NASA, hilst på den humanoide roboten Robonaut 2 og sittet i en fullskala replika av en modul fra Den internasjonale romstasjonen.</p>
+      <p data-lang-en>I have visited NASA, shaken hands with the humanoid robot Robonaut 2, and sat inside a full-scale replica of a module from the International Space Station.</p>
+      <div class="gallery">
+        <img src="assets/img/nasa-robonaut.jpg" alt="Sondre hilser på NASAs humanoide robot Robonaut 2" width="1600" height="1067" loading="lazy" data-zoom>
+        <img src="assets/img/iss-replica.jpg" alt="Sondre i en replika av en ISS-modul" width="1600" height="1067" loading="lazy" data-zoom>
+      </div>
+      <p data-lang-no>Den ekte stasjonen går i bane rundt 400 km over oss, og runder jorden omtrent hvert 90. minutt. Det er dit planen peker.</p>
+      <p data-lang-en>The real station orbits about 400 km above us, and circles the Earth about every 90 minutes. That is where the plan points.</p>
     </div>
-    <div data-lang-en>
-      <p>Alongside the technology, I have a foot in the world of film. Together with director Ole Fredrik Wannebo I founded the production company Ragnarok Film, with the ambition of portraying the viking age and Norse mythology as historically and mythologically accurately as possible, far from the Hollywood version.</p>
-    </div>
+  </section>
 
-    <figure><img src="Stills_Ragnarok.jpg" alt="Stillbilde fra kortfilmen Ragnarok"></figure>
+  <!-- 06 · WORK -->
+  <section id="arbeid" class="chapter right" data-chapter="6" data-name-no="Oppdragsstøtte" data-name-en="Mission support">
+    <div class="panel wide">
+      <p class="kicker"><span data-lang-no>06 · Oppdragsstøtte</span><span data-lang-en>06 · Mission support</span></p>
+      <h2><span data-lang-no>Arbeid</span><span data-lang-en>Work</span></h2>
+      <p data-lang-no>Siden 2004 har jeg jobbet med technology transfer, helt fra oppstarten av NTNU Technology Transfer, der jeg var med fra begynnelsen. Spisskompetansen min er å se hvilke ideer som faktisk er gode, og å bygge vei fra forskning til marked. Jeg har bred og dyp erfaring med patentering, avanserte patentstrategier, freedom to operate og kommersielle strategier, med et særlig fokus på olje og gass og oppdrettsteknologi.</p>
+      <p data-lang-en>Since 2004 I have worked in technology transfer, right from the founding of NTNU Technology Transfer, where I was involved from the start. My core strength is seeing which ideas are genuinely good, and building the path from research to market. I have broad and deep experience with patenting, advanced patent strategies, freedom to operate and commercial strategy, with a particular focus on oil and gas and aquaculture technology.</p>
+      <div class="cards">
+        <div class="card">
+          <h3><span data-lang-no>InnSep og Lynx Kitchen</span><span data-lang-en>InnSep and Lynx Kitchen</span></h3>
+          <p data-lang-no>Jeg er daglig leder i InnSep, som har utviklet en separasjonsteknologi som skiller væske fra gass på en langt enklere måte enn før, en idé så enkel at det er vanskelig å tro ingen tenkte på den tidligere. Jeg leder også Lynx Kitchen, en spinout fra InnSep der teknologien er tilpasset kjøkkenventilasjon. Her har vi inngått partnerskap med Mælen Blikk og Ventilasjon AS, som har enerett på produksjon og salg i Norge, og målet er å ta løsningen til resten av verden.</p>
+          <p data-lang-en>I am CEO of InnSep, which has developed a separation technology that separates liquid from gas in a far simpler way than before, an idea so simple it is hard to believe no one thought of it earlier. I also lead Lynx Kitchen, a spinout from InnSep where the technology is adapted for kitchen ventilation. Here we have entered a partnership with Mælen Blikk og Ventilasjon AS, who hold exclusive rights to produce and sell it in Norway, and the goal is to take the solution to the rest of the world.</p>
+        </div>
+        <div class="card">
+          <h3>Aider</h3>
+          <p data-lang-no>Jeg jobber også deltid i innovasjonsgruppen i Aider AS, der vi hjelper selskaper, store og små, med søknader til Enova og Forskningsrådet, patentering, strategisk oppbygging, kommersialisering og management for hire.</p>
+          <p data-lang-en>I also work part-time in the innovation group at Aider AS, where we help companies, large and small, with applications to Enova and the Research Council of Norway, patenting, strategic development, commercialisation and management for hire.</p>
+        </div>
+        <div class="card">
+          <h3><span data-lang-no>Kunstig intelligens</span><span data-lang-en>Artificial intelligence</span></h3>
+          <p data-lang-no>Jeg er fascinert av kunstig intelligens og tar jevnlig kurs for å styrke kunnskapen og erfaringen min, blant annet Outskills sertifisering som Generative AI-generalist. Jeg bruker AI i stadig større grad for å få mer ut av erfaringen jeg har bygget opp gjennom årene.</p>
+          <p data-lang-en>I am fascinated by artificial intelligence and regularly take courses to strengthen my knowledge and experience, among them Outskill's certification as a Generative AI Generalist. I use AI to an increasing degree to get more out of the experience I have built up over the years.</p>
+        </div>
+      </div>
+      <p data-lang-no>Tidligere har jeg blant annet vært medgründer av teknologioverføringskontoret ved NTNU, jobbet som innovasjonsrådgiver og senior prosjektleder i en rekke teknologiselskaper, og undervist i mekanikk og innovasjon ved NTNU.</p>
+      <p data-lang-en>Earlier I have, among other things, co-founded the technology transfer office at NTNU, worked as an innovation advisor and senior project manager in a range of technology companies, and taught mechanics and innovation at NTNU.</p>
+      <p class="quote">"Hope is not a strategy."</p>
+    </div>
+  </section>
 
-    <div data-lang-no>
-      <p>Jeg spilte og produserte hovedrollen i kortfilmen «Ragnarok», som ble vist på filmfestivaler i Chicago, Italia og Tokyo før den fikk premiere på YouTube. Jeg medvirket også i musikkvideoen til Wardrunas «Lyfjaberg», som med over 80 millioner visninger er blitt en av Norges mest sette musikkvideoer. Jeg har spilt i «Birkebeinerne» og hatt rollen som Rane Vidvandre i NRK-serien «I Olavs fotspor».</p>
-      <p>Vi medvirker fortsatt i film og har flere spennende prosjekter på horisonten. Vi har også skapt Viking Experience, som var først ute med å la folk med en skuespillerdrøm oppleve å være hovedperson i sin egen film. Vi stiller med skuespilleropplæring, gir tre ganger så lang opptakstid som normalt og utvikler et manus tilpasset den enkelte. To filmer lanseres nå, og vi har tidligere laget film finansiert gjennom Kickstarter. Profilen min finnes på IMDB.</p>
+  <!-- 07 · FILM -->
+  <section id="film" class="chapter" data-chapter="7" data-name-no="Sideoppdrag" data-name-en="Side mission">
+    <div class="panel">
+      <p class="kicker"><span data-lang-no>07 · Sideoppdrag</span><span data-lang-en>07 · Side mission</span></p>
+      <h2>Film</h2>
+      <p data-lang-no>Ved siden av teknologien har jeg en fot i filmverdenen. Sammen med regissør Ole Fredrik Wannebo stiftet jeg produksjonsselskapet Ragnarok Film, med ambisjon om å skildre vikingtiden og den norrøne mytologien så historisk og mytologisk korrekt som mulig, langt unna Hollywoods versjon.</p>
+      <p data-lang-en>Alongside the technology, I have a foot in the world of film. Together with director Ole Fredrik Wannebo I founded the production company Ragnarok Film, with the ambition of portraying the viking age and Norse mythology as historically and mythologically accurately as possible, far from the Hollywood version.</p>
+      <figure><img src="assets/img/ragnarok.jpg" alt="Stillbilde fra kortfilmen Ragnarok" width="2000" height="844" loading="lazy" data-zoom></figure>
+      <p data-lang-no>Jeg spilte og produserte hovedrollen i kortfilmen «Ragnarok», som ble vist på filmfestivaler i Chicago, Italia og Tokyo før den fikk premiere på YouTube. Jeg medvirket også i musikkvideoen til Wardrunas «Lyfjaberg», som med over 80 millioner visninger er blitt en av Norges mest sette musikkvideoer. Jeg har spilt i «Birkebeinerne» og hatt rollen som Rane Vidvandre i NRK-serien «I Olavs fotspor».</p>
+      <p data-lang-en>I acted in and produced the lead role in the short film "Ragnarok", which screened at film festivals in Chicago, Italy and Tokyo before premiering on YouTube. I also appeared in the music video for Wardruna's "Lyfjaberg", which with over 80 million views has become one of Norway's most-watched music videos. I have acted in "The Last King" (Birkebeinerne) and played the role of Rane Vidvandre in the NRK series "I Olavs fotspor".</p>
+      <p data-lang-no>Vi medvirker fortsatt i film og har flere spennende prosjekter på horisonten. Vi har også skapt Viking Experience, som var først ute med å la folk med en skuespillerdrøm oppleve å være hovedperson i sin egen film. Vi stiller med skuespilleropplæring, gir tre ganger så lang opptakstid som normalt og utvikler et manus tilpasset den enkelte. To filmer lanseres nå, og vi har tidligere laget film finansiert gjennom Kickstarter. Profilen min finnes på IMDB.</p>
+      <p data-lang-en>We are still active in film and have several exciting projects on the horizon. We have also created Viking Experience, the first of its kind to let people with an acting dream experience being the lead in their own film. We provide acting training, give three times the normal shooting time, and develop a script tailored to the individual. Two films are launching now, and we have previously made a film financed through Kickstarter. My profile is on IMDB.</p>
     </div>
-    <div data-lang-en>
-      <p>I acted in and produced the lead role in the short film "Ragnarok", which screened at film festivals in Chicago, Italy and Tokyo before premiering on YouTube. I also appeared in the music video for Wardruna's "Lyfjaberg", which with over 80 million views has become one of Norway's most-watched music videos. I have acted in "The Last King" (Birkebeinerne) and played the role of Rane Vidvandre in the NRK series "I Olavs fotspor".</p>
-      <p>We are still active in film and have several exciting projects on the horizon. We have also created Viking Experience, the first of its kind to let people with an acting dream experience being the lead in their own film. We provide acting training, give three times the normal shooting time, and develop a script tailored to the individual. Two films are launching now, and we have previously made a film financed through Kickstarter. My profile is on IMDB.</p>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section id="media">
-  <div class="wrap">
-    <h2><span data-lang-no>I media</span><span data-lang-en>In the media</span></h2>
-    <div data-lang-no>
-      <p>Reisen min har vært dekket av norske medier gjennom flere tiår. NRK Viten fulgte meg til Mojaveørkenen i den store reportasjen «Veien til verdensrommet». Dagens Næringsliv skrev om samarbeidet mellom norsk industri og NASA. Adresseavisen fortalte historien da jeg ble tatt ut til ESAs astronautopptak. Helgelands Blad har fulgt meg fra oppfinner-NM til romdrakt. Og Universitetsavisa lot meg gå vitenskapelig til verks for å brygge den perfekte kaffekoppen.</p>
+  <!-- 08 · MEDIA -->
+  <section id="media" class="chapter right" data-chapter="8" data-name-no="Sendinger" data-name-en="Transmissions">
+    <div class="panel">
+      <p class="kicker"><span data-lang-no>08 · Sendinger</span><span data-lang-en>08 · Transmissions</span></p>
+      <h2><span data-lang-no>I media</span><span data-lang-en>In the media</span></h2>
+      <p data-lang-no>Reisen min har vært dekket av norske medier gjennom flere tiår. NRK Viten fulgte meg til Mojaveørkenen i den store reportasjen «Veien til verdensrommet». Dagens Næringsliv skrev om samarbeidet mellom norsk industri og NASA. Adresseavisen fortalte historien da jeg ble tatt ut til ESAs astronautopptak. Helgelands Blad har fulgt meg fra oppfinner-NM til romdrakt. Og Universitetsavisa lot meg gå vitenskapelig til verks for å brygge den perfekte kaffekoppen.</p>
+      <p data-lang-en>My journey has been covered by Norwegian media across several decades. NRK Viten followed me to the Mojave Desert in the feature "The Road to Space". Dagens Næringsliv wrote about the collaboration between Norwegian industry and NASA. Adresseavisen told the story when I was selected for ESA's astronaut process. Helgelands Blad has followed me from the national inventor's prize to the spacesuit. And Universitetsavisa let me take a scientific approach to brewing the perfect cup of coffee.</p>
+      <ul class="outlets">
+        <li>NRK</li><li>Dagens Næringsliv</li><li>Adresseavisen</li><li>Helgelands Blad</li><li>Universitetsavisa</li><li>Midt-Norsk Olje &amp; Gass</li>
+      </ul>
     </div>
-    <div data-lang-en>
-      <p>My journey has been covered by Norwegian media across several decades. NRK Viten followed me to the Mojave Desert in the feature "The Road to Space". Dagens Næringsliv wrote about the collaboration between Norwegian industry and NASA. Adresseavisen told the story when I was selected for ESA's astronaut process. Helgelands Blad has followed me from the national inventor's prize to the spacesuit. And Universitetsavisa let me take a scientific approach to brewing the perfect cup of coffee.</p>
-    </div>
-    <div class="media-row">
-      <span>NRK</span><span>Dagens Næringsliv</span><span>Adresseavisen</span><span>Helgelands Blad</span><span>Universitetsavisa</span><span>Midt-Norsk Olje &amp; Gass</span>
-    </div>
-  </div>
-</section>
+  </section>
 
-<section id="kontakt">
-  <div class="wrap">
-    <h2><span data-lang-no>Kontakt</span><span data-lang-en>Contact</span></h2>
-    <p><span data-lang-no>Vil du ta kontakt? Du finner meg her:</span><span data-lang-en>Want to get in touch? You can find me here:</span></p>
-    <div class="contact-links">
-      <a href="https://www.linkedin.com/in/sondrejacobsen/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 17V9.99H6V17h2.34zM7.17 8.96a1.36 1.36 0 1 0 0-2.72 1.36 1.36 0 0 0 0 2.72zM18 17v-3.84c0-2.05-.44-3.63-2.84-3.63-1.15 0-1.92.63-2.24 1.23h-.03V9.99H10.6V17h2.34v-3.47c0-.92.17-1.8 1.3-1.8 1.12 0 1.14 1.05 1.14 1.86V17H18z"/></svg>
-        LinkedIn
-      </a>
-      <a href="https://www.imdb.com/name/nm9320702/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm2.2 3v8h1.9V8H5.2zm3.1 0v8h1.7v-5.2L11 16h1.2l1-5.2V16h1.7V8h-2.5l-.8 4-.8-4H8.3zm8.4 0v8h2.4c1.4 0 2-.7 2-2.2v-3.6c0-1.5-.6-2.2-2-2.2h-2.4zm1.8 1.4c.5 0 .8.2.8.9v3.4c0 .7-.3.9-.8.9V9.4z"/></svg>
-        IMDB
-      </a>
-      <a href="https://www.instagram.com/smackomatic/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.26.07 1.64.07 4.81s0 3.55-.07 4.81c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.26.06-1.64.07-4.85.07s-3.59 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.2 15.55 2.2 15.17 2.2 12s0-3.55.07-4.81c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.41 2.2 8.8 2.2 12 2.2zm0 1.95c-3.15 0-3.52.01-4.76.07-.92.04-1.42.2-1.75.33-.44.17-.75.37-1.08.7-.33.33-.53.64-.7 1.08-.13.33-.29.83-.33 1.75-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.92.2 1.42.33 1.75.17.44.37.75.7 1.08.33.33.64.53 1.08.7.33.13.83.29 1.75.33 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.92-.04 1.42-.2 1.75-.33.44-.17.75-.37 1.08-.7.33-.33.53-.64.7-1.08.13-.33.29-.83.33-1.75.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.92-.2-1.42-.33-1.75a2.9 2.9 0 0 0-.7-1.08 2.9 2.9 0 0 0-1.08-.7c-.33-.13-.83-.29-1.75-.33-1.24-.06-1.61-.07-4.76-.07zm0 3.32a4.53 4.53 0 1 1 0 9.06 4.53 4.53 0 0 1 0-9.06zm0 7.47a2.94 2.94 0 1 0 0-5.88 2.94 2.94 0 0 0 0 5.88zm5.77-7.69a1.06 1.06 0 1 1-2.12 0 1.06 1.06 0 0 1 2.12 0z"/></svg>
-        Instagram
-      </a>
-      <a href="mailto:sondre@sondre.com">
-        <svg viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7L4.5 7h15L12 12zm0 2.2L4 8.8V18h16V8.8l-8 5.4z"/></svg>
-        sondre@sondre.com
-      </a>
+  <!-- 09 · CONTACT -->
+  <section id="kontakt" class="chapter" data-chapter="9" data-name-no="Bakkekontroll" data-name-en="Ground control">
+    <div class="panel">
+      <p class="kicker"><span data-lang-no>09 · Bakkekontroll</span><span data-lang-en>09 · Ground control</span></p>
+      <h2><span data-lang-no>Kontakt</span><span data-lang-en>Contact</span></h2>
+      <p><span data-lang-no>Vil du ta kontakt? Du finner meg her:</span><span data-lang-en>Want to get in touch? You can find me here:</span></p>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/sondrejacobsen/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14zM8.34 17V9.99H6V17h2.34zM7.17 8.96a1.36 1.36 0 1 0 0-2.72 1.36 1.36 0 0 0 0 2.72zM18 17v-3.84c0-2.05-.44-3.63-2.84-3.63-1.15 0-1.92.63-2.24 1.23h-.03V9.99H10.6V17h2.34v-3.47c0-.92.17-1.8 1.3-1.8 1.12 0 1.14 1.05 1.14 1.86V17H18z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://www.imdb.com/name/nm9320702/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm2.2 3v8h1.9V8H5.2zm3.1 0v8h1.7v-5.2L11 16h1.2l1-5.2V16h1.7V8h-2.5l-.8 4-.8-4H8.3zm8.4 0v8h2.4c1.4 0 2-.7 2-2.2v-3.6c0-1.5-.6-2.2-2-2.2h-2.4zm1.8 1.4c.5 0 .8.2.8.9v3.4c0 .7-.3.9-.8.9V9.4z"/></svg>
+          IMDB
+        </a>
+        <a href="https://www.instagram.com/smackomatic/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.26.07 1.64.07 4.81s0 3.55-.07 4.81c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.26.06-1.64.07-4.85.07s-3.59 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.2 15.55 2.2 15.17 2.2 12s0-3.55.07-4.81c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.41 2.2 8.8 2.2 12 2.2zm0 1.95c-3.15 0-3.52.01-4.76.07-.92.04-1.42.2-1.75.33-.44.17-.75.37-1.08.7-.33.33-.53.64-.7 1.08-.13.33-.29.83-.33 1.75-.06 1.24-.07 1.61-.07 4.76s.01 3.52.07 4.76c.04.92.2 1.42.33 1.75.17.44.37.75.7 1.08.33.33.64.53 1.08.7.33.13.83.29 1.75.33 1.24.06 1.61.07 4.76.07s3.52-.01 4.76-.07c.92-.04 1.42-.2 1.75-.33.44-.17.75-.37 1.08-.7.33-.33.53-.64.7-1.08.13-.33.29-.83.33-1.75.06-1.24.07-1.61.07-4.76s-.01-3.52-.07-4.76c-.04-.92-.2-1.42-.33-1.75a2.9 2.9 0 0 0-.7-1.08 2.9 2.9 0 0 0-1.08-.7c-.33-.13-.83-.29-1.75-.33-1.24-.06-1.61-.07-4.76-.07zm0 3.32a4.53 4.53 0 1 1 0 9.06 4.53 4.53 0 0 1 0-9.06zm0 7.47a2.94 2.94 0 1 0 0-5.88 2.94 2.94 0 0 0 0 5.88zm5.77-7.69a1.06 1.06 0 1 1-2.12 0 1.06 1.06 0 0 1 2.12 0z"/></svg>
+          Instagram
+        </a>
+        <a href="mailto:sondre@sondre.com">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm9 7L4.5 7h15L12 12zm0 2.2L4 8.8V18h16V8.8l-8 5.4z"/></svg>
+          sondre@sondre.com
+        </a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+
+</main>
 
 <footer>
-  © Sondre Klæboe Jacobsen — sondre.com
+  <p>© Sondre Klæboe Jacobsen — sondre.com</p>
+  <p><span data-lang-no>Bildekilder</span><span data-lang-en>Image credits</span>: Earth — NASA Blue Marble &amp; Black Marble · <span data-lang-no>Skyer</span><span data-lang-en>Clouds</span> — Tom Patterson, Natural Earth III · <span data-lang-no>Melkeveien</span><span data-lang-en>Milky Way</span> — ESO/S. Brunier · M31 &amp; M51 — NASA/ESA Hubble · <span data-lang-no>Månen</span><span data-lang-en>Moon</span> — three.js examples · 3D — three.js</p>
 </footer>
 
-<script>
-  function setLang(l){
-    document.documentElement.lang = l;
-    document.getElementById('btn-no').classList.toggle('active', l==='no');
-    document.getElementById('btn-en').classList.toggle('active', l==='en');
-  }
-</script>
-
-<script>
-  /* Deep-space background: twinkling star layer on top of the real Milky Way / galaxy photos */
-  (function(){
-    var canvas = document.getElementById('star-canvas');
-    var ctx = canvas.getContext('2d');
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var w, h, dpr, stars;
-    var mx = 0, my = 0;
-
-    function rand(min, max){ return Math.random() * (max - min) + min; }
-
-    function generate(){
-      stars = [];
-      var count = Math.floor((w * h) / 2600);
-      for(var i = 0; i < count; i++){
-        stars.push({
-          x: Math.random() * w,
-          y: Math.random() * h,
-          r: rand(0.4, 1.6),
-          baseAlpha: rand(0.25, 1),
-          speed: rand(0.5, 2),
-          phase: rand(0, Math.PI * 2),
-          parallax: rand(0.1, 0.5)
-        });
-      }
-    }
-
-    function resize(){
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      w = window.innerWidth;
-      h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      canvas.style.width = w + 'px';
-      canvas.style.height = h + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      generate();
-    }
-
-    function frame(t){
-      ctx.clearRect(0, 0, w, h);
-
-      stars.forEach(function(s){
-        var twinkle = reduceMotion ? 1 : (0.6 + 0.4 * Math.sin(t * 0.001 * s.speed + s.phase));
-        var alpha = s.baseAlpha * twinkle;
-        var px = s.x + mx * 30 * s.parallax;
-        var py = s.y + my * 30 * s.parallax;
-        ctx.beginPath();
-        ctx.fillStyle = 'rgba(255,255,255,' + alpha + ')';
-        ctx.arc(px, py, s.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-
-      if(!reduceMotion) requestAnimationFrame(frame);
-    }
-
-    window.addEventListener('mousemove', function(e){
-      mx = (e.clientX / w - 0.5);
-      my = (e.clientY / h - 0.5);
-    }, { passive: true });
-
-    window.addEventListener('resize', resize);
-    resize();
-    requestAnimationFrame(frame);
-    if(reduceMotion) frame(0);
-  })();
-</script>
-
-<script>
-  /* Romskip-cursor: a small spaceship replaces the pointer on desktop, trailing a comet-like ion trail */
-  (function(){
-    var isFinePointer = window.matchMedia('(pointer: fine)').matches;
-    var el = document.getElementById('rocket-cursor');
-    var trailCanvas = document.getElementById('cursor-trail');
-    if(!isFinePointer){
-      el.remove();
-      trailCanvas.remove();
-      return;
-    }
-
-    document.documentElement.classList.add('has-fine-pointer');
-
-    var tctx = trailCanvas.getContext('2d');
-    var tw, th, tdpr;
-    function resizeTrail(){
-      tdpr = Math.min(window.devicePixelRatio || 1, 2);
-      tw = window.innerWidth;
-      th = window.innerHeight;
-      trailCanvas.width = tw * tdpr;
-      trailCanvas.height = th * tdpr;
-      trailCanvas.style.width = tw + 'px';
-      trailCanvas.style.height = th + 'px';
-      tctx.setTransform(tdpr, 0, 0, tdpr, 0, 0);
-    }
-    window.addEventListener('resize', resizeTrail);
-    resizeTrail();
-
-    var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-    var x = mouseX, y = mouseY;
-    var angle = 0, lastAngle = 0;
-    var hasMoved = false;
-
-    var history = [];    // recent ship positions -> tapered ion-trail ribbon
-    var sparks = [];     // short-lived ember particles from the flame
-
-    window.addEventListener('mousemove', function(e){
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      if(!hasMoved){
-        x = mouseX; y = mouseY;
-        hasMoved = true;
-        el.classList.add('visible');
-      }
-    });
-    window.addEventListener('mouseleave', function(){ el.classList.remove('visible'); });
-    window.addEventListener('mouseenter', function(){ if(hasMoved) el.classList.add('visible'); });
-
-    document.addEventListener('mouseover', function(e){
-      if(e.target.closest && e.target.closest('a, button')) el.classList.add('hover');
-    });
-    document.addEventListener('mouseout', function(e){
-      if(e.target.closest && e.target.closest('a, button')) el.classList.remove('hover');
-    });
-
-    function loop(t){
-      var dx = mouseX - x;
-      var dy = mouseY - y;
-      x += dx * 0.18;
-      y += dy * 0.18;
-
-      var dist = Math.hypot(dx, dy);
-      if(dist > 1.2){
-        var targetAngle = Math.atan2(dy, dx) * 180 / Math.PI + 90;
-        var diff = ((targetAngle - lastAngle + 180) % 360 + 360) % 360 - 180;
-        lastAngle += diff * 0.15;
-        angle = lastAngle;
-      }
-
-      var bobX = Math.sin(t * 0.0025) * 1.4;
-      var bobY = Math.cos(t * 0.002) * 1.4;
-      var shipX = x + bobX, shipY = y + bobY;
-
-      el.style.transform = 'translate(' + shipX + 'px, ' + shipY + 'px) rotate(' + angle + 'deg)';
-
-      /* tail direction = opposite the nose */
-      var rad = (angle - 90) * Math.PI / 180;
-      var tailX = shipX - Math.cos(rad) * 15;
-      var tailY = shipY - Math.sin(rad) * 15;
-
-      history.push({ x: tailX, y: tailY });
-      if(history.length > 16) history.shift();
-
-      if(dist > 0.6 && Math.random() < 0.9){
-        var spread = (Math.random() - 0.5) * 0.9;
-        var sAngle = rad + Math.PI + spread;
-        var speed = rand(0.3, 1.1);
-        sparks.push({
-          x: tailX, y: tailY,
-          vx: Math.cos(sAngle) * speed,
-          vy: Math.sin(sAngle) * speed,
-          life: 1,
-          size: rand(1, 2.6)
-        });
-      }
-      if(sparks.length > 80) sparks.splice(0, sparks.length - 80);
-
-      tctx.clearRect(0, 0, tw, th);
-
-      /* ribbon: tapered, glowing tail following the ship's recent path */
-      for(var i = 1; i < history.length; i++){
-        var p0 = history[i - 1], p1 = history[i];
-        var f = i / history.length;
-        tctx.beginPath();
-        tctx.moveTo(p0.x, p0.y);
-        tctx.lineTo(p1.x, p1.y);
-        tctx.lineCap = 'round';
-        tctx.lineWidth = 1 + f * 6;
-        tctx.strokeStyle = 'rgba(' + Math.round(255) + ',' + Math.round(150 + f * 90) + ',' + Math.round(70 + f * 60) + ',' + (f * 0.5) + ')';
-        tctx.stroke();
-      }
-
-      /* sparks: fading embers drifting off the flame */
-      for(var j = sparks.length - 1; j >= 0; j--){
-        var s = sparks[j];
-        s.x += s.vx;
-        s.y += s.vy;
-        s.life -= 0.035;
-        if(s.life <= 0){ sparks.splice(j, 1); continue; }
-        tctx.beginPath();
-        tctx.fillStyle = 'rgba(255,' + Math.round(140 + s.life * 90) + ',' + Math.round(60 + s.life * 60) + ',' + (s.life * 0.85) + ')';
-        tctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
-        tctx.fill();
-      }
-
-      requestAnimationFrame(loop);
-    }
-
-    function rand(min, max){ return Math.random() * (max - min) + min; }
-
-    requestAnimationFrame(loop);
-  })();
-</script>
+<dialog id="lightbox">
+  <figure><img src="" alt=""><figcaption></figcaption></figure>
+</dialog>
 
 </body>
 </html>
