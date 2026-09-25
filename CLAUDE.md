@@ -12,6 +12,10 @@ Google Drive, i `Registry\DOMENER.md`. Stien til Registry står i
 Les `DOMENER.md` før du foreslår noe som rører domenet, DNS eller hostingen.
 Står et faktum i JAXX, er JAXX fasiten.
 
+Beslutninger, logg og erfaringer for selve nettsiden ligger i JAXX under
+`Registry/sondre.com/` (mappe-ID `1dxktoxU8p7Zg8zsT89GLo0a7xD1eHWeb`).
+Les `00-BESLUTNINGER.md` der før du endrer siden, og skriv i `00-LOGG.md` før økta slutter.
+
 Felles regler for alle repoer i `C:\dev` står i `C:\dev\CLAUDE.md`.
 
 ## Hva dette er
