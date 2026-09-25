@@ -169,8 +169,8 @@ function hasWebGL2() {
 }
 
 const quality = small
-  ? { maxDpr: 1.5, msaa: 0, tex: '2k', stars: 3500, segments: 96 }
-  : { maxDpr: 2, msaa: 4, tex: '4k', stars: 7000, segments: 160 };
+  ? { maxDpr: 1.5, maxPixels: Infinity, msaa: 0, tex: '2k', stars: 3500, segments: 96 }
+  : { maxDpr: 2, maxPixels: 1920 * 1080, msaa: 2, tex: '4k', stars: 7000, segments: 160 };
 
 let scene = null;
 const pointer = { x: 0, y: 0 };
@@ -218,105 +218,6 @@ function onResize() {
   scene?.resize();
 }
 
-// ---------- Spaceship cursor (desktop only) ----------
-function initCursor() {
-  const el = document.getElementById('rocket-cursor');
-  const trail = document.getElementById('cursor-trail');
-  if (!matchMedia('(pointer: fine)').matches || reducedMotion) {
-    el.remove();
-    trail.remove();
-    return;
-  }
-  root.classList.add('has-fine-pointer');
-  const ctx = trail.getContext('2d');
-  let tw, th;
-  const resizeTrail = () => {
-    const d = Math.min(window.devicePixelRatio || 1, 2);
-    tw = window.innerWidth;
-    th = window.innerHeight;
-    trail.width = tw * d;
-    trail.height = th * d;
-    ctx.setTransform(d, 0, 0, d, 0, 0);
-  };
-  window.addEventListener('resize', resizeTrail);
-  resizeTrail();
-
-  let mx = tw / 2, my = th / 2, x = mx, y = my, angle = 0, moved = false;
-  const history = [];
-  const sparks = [];
-  const rand = (a, b) => Math.random() * (b - a) + a;
-  window.addEventListener('mousemove', (e) => {
-    mx = e.clientX;
-    my = e.clientY;
-    if (!moved) {
-      x = mx;
-      y = my;
-      moved = true;
-      el.classList.add('visible');
-    }
-  });
-  document.addEventListener('mouseleave', () => el.classList.remove('visible'));
-  document.addEventListener('mouseenter', () => moved && el.classList.add('visible'));
-  document.addEventListener('mouseover', (e) => e.target.closest?.('a, button, [data-zoom]') && el.classList.add('hover'));
-  document.addEventListener('mouseout', (e) => e.target.closest?.('a, button, [data-zoom]') && el.classList.remove('hover'));
-
-  (function loop(t) {
-    if (!moved) return requestAnimationFrame(loop);
-    const dx = mx - x;
-    const dy = my - y;
-    x += dx * 0.18;
-    y += dy * 0.18;
-    const dist = Math.hypot(dx, dy);
-    if (dist > 1.2) {
-      const target = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
-      const diff = ((((target - angle + 180) % 360) + 360) % 360) - 180;
-      angle += diff * 0.15;
-    }
-    const sx = x + Math.sin(t * 0.0025) * 1.4;
-    const sy = y + Math.cos(t * 0.002) * 1.4;
-    el.style.transform = `translate(${sx}px, ${sy}px) rotate(${angle}deg)`;
-
-    const rad = ((angle - 90) * Math.PI) / 180;
-    const tx = sx - Math.cos(rad) * 15;
-    const ty = sy - Math.sin(rad) * 15;
-    history.push({ x: tx, y: ty });
-    if (history.length > 16) history.shift();
-    if (dist > 0.6 && Math.random() < 0.9) {
-      const a = rad + Math.PI + (Math.random() - 0.5) * 0.9;
-      const sp = rand(0.3, 1.1);
-      sparks.push({ x: tx, y: ty, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 1, size: rand(1, 2.6) });
-    }
-    if (sparks.length > 80) sparks.splice(0, sparks.length - 80);
-
-    ctx.clearRect(0, 0, tw, th);
-    for (let i = 1; i < history.length; i++) {
-      const f = i / history.length;
-      ctx.beginPath();
-      ctx.moveTo(history[i - 1].x, history[i - 1].y);
-      ctx.lineTo(history[i].x, history[i].y);
-      ctx.lineCap = 'round';
-      ctx.lineWidth = 1 + f * 6;
-      ctx.strokeStyle = `rgba(255,${Math.round(150 + f * 90)},${Math.round(70 + f * 60)},${f * 0.5})`;
-      ctx.stroke();
-    }
-    for (let j = sparks.length - 1; j >= 0; j--) {
-      const s = sparks[j];
-      s.x += s.vx;
-      s.y += s.vy;
-      s.life -= 0.035;
-      if (s.life <= 0) {
-        sparks.splice(j, 1);
-        continue;
-      }
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(255,${Math.round(140 + s.life * 90)},${Math.round(60 + s.life * 60)},${s.life * 0.85})`;
-      ctx.arc(s.x, s.y, s.size * s.life, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    requestAnimationFrame(loop);
-  })(0);
-}
-
 // ---------- Start ----------
 let saved = null;
 try {
@@ -327,7 +228,6 @@ measure();
 window.addEventListener('resize', onResize);
 window.addEventListener('load', measure);
 new ResizeObserver(() => measure()).observe(document.querySelector('main'));
-initCursor();
 requestAnimationFrame(frame);
 
 startScene().catch((err) => {

@@ -20,7 +20,9 @@ export const CHAPTERS = ['hero', 'origin', 'training', 'esa', 'launch', 'iss', '
 
 export function createScene(canvas, { quality, reducedMotion = false, snap = false, onProgress, onLoaded } = {}) {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
-  const pixelRatio = () => Math.min(window.devicePixelRatio || 1, quality.maxDpr);
+  // Capped by a total pixel budget: large external monitors otherwise exhaust GPU memory and Chrome shows black tiles.
+  const pixelRatio = () =>
+    Math.min(window.devicePixelRatio || 1, quality.maxDpr, Math.sqrt(quality.maxPixels / (window.innerWidth * window.innerHeight)));
   renderer.setPixelRatio(pixelRatio());
   renderer.setSize(window.innerWidth, window.innerHeight, false);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;

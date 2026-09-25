@@ -792,58 +792,11 @@ dialog#lightbox figcaption {
 }
 
 /* ---------- Spaceship cursor ---------- */
-#cursor-trail {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9998;
-  pointer-events: none;
-}
-#rocket-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 34px;
-  height: 34px;
-  margin: -17px 0 0 -17px;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  filter: drop-shadow(0 0 6px rgba(125, 180, 230, 0.55));
-}
-#rocket-cursor.visible {
-  opacity: 1;
-}
-#rocket-cursor svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-#rocket-cursor .flame {
-  transform-origin: 32px 40px;
-  animation: flame 0.16s infinite alternate;
-}
-#rocket-cursor.hover svg {
-  transform: scale(1.25);
-}
-@keyframes flame {
-  from {
-    transform: scaleY(0.8);
-    opacity: 0.75;
+/* A real OS cursor, so it never lags behind the mouse. Links keep the hand. */
+@media (pointer: fine) {
+  body {
+    cursor: url('../img/rocket-cursor.svg') 2 2, auto;
   }
-  to {
-    transform: scaleY(1.2);
-    opacity: 1;
-  }
-}
-html.has-fine-pointer,
-html.has-fine-pointer body,
-html.has-fine-pointer a,
-html.has-fine-pointer button,
-html.has-fine-pointer img {
-  cursor: none;
 }
 
 /* ---------- Small screens ---------- */
