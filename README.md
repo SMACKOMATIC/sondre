@@ -1,6 +1,6 @@
 # sondre.com
 
-Privat hjemmeside hostet på Pair.com. Siden forteller reisen mot verdensrommet som en 3D-reise: når du ruller nedover, flyr et kamera fra bane rundt jorden, ned til Helgeland, videre til Mojave, ESA-uttaket, oppskytingen, romstasjonen og ut i verdensrommet.
+Privat hjemmeside hostet på Vercel. Siden forteller reisen mot verdensrommet som en 3D-reise: når du ruller nedover, flyr et kamera fra bane rundt jorden, ned til Helgeland, videre til Mojave, ESA-uttaket, oppskytingen, romstasjonen og ut i verdensrommet.
 
 ## Struktur
 
@@ -49,21 +49,11 @@ Tips: `http://localhost:8000/?snap` slår av den myke kamerabevegelsen. Det er n
 1. Hent siste versjon fra GitHub: `git pull`
 2. Rediger filer lokalt på Windows-PC
 3. Test lokalt (se over)
-4. Last opp til GitHub for versjonskontroll
-5. Publiser på Pair.com via WinSCP
+4. Commit og push til `main` på GitHub
 
-## Opplasting til Pair
+## Publisering
 
-Bruk WinSCP:
-- Koble til Pair FTP
-- Naviger til `/usr/www/users/sondre1/public_html/`
-- Last opp disse filene og mappene:
-  - `index.html`
-  - `assets/` (hele mappen)
-  - `vendor/` (hele mappen)
-  - `favicon.png`, `favicon.ico`, `googlehostedservice.html`
-
-Originalbildene i rotmappen trenger du ikke å laste opp.
+Repoet er koblet til Vercel-prosjektet `sondre`. En push til `main` publiserer siden av seg selv, og den er ute på sondre.com etter omtrent ett minutt. WinSCP og Pair brukes ikke lenger.
 
 ## Bildekilder
 
