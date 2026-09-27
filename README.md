@@ -21,7 +21,13 @@ assets/textures/        Kart over jorden, skyer, månen, galakser
 vendor/three/           Three.js (3D-biblioteket), lagret lokalt
 ```
 
-Bildene i rotmappen (`NASA.JPG`, `ISS.JPG` osv.) er originalene. Siden bruker dem ikke lenger. Den bruker de mindre kopiene i `assets/img/`.
+Siden bruker WebP-kopier i `assets/img/`, 1200 piksler brede. Originalene i full oppløsning er fjernet fra repoet 2026-09-27, men ligger fortsatt i git-historikken. Slik henter du ett tilbake:
+
+```
+git show 19a60e6:NASA.JPG > NASA.JPG
+```
+
+Filnavnene i commit `19a60e6`: `Gala.jpg`, `Generative-AI-SondreJacobsen_diploma.gif`, `ISS.JPG`, `Jagerfly.jpg`, `NASA.JPG`, `Stills_Ragnarok.jpg`, `XCOR-patch.jpg`, `XCOR-rocket.jpg`, `ZEROG-certificate.jpg`, `ZeroG-plane.jpg`, `ZeroG-weightless.jpg`, `andromeda.jpg`, `milkyway.jpg`, `whirlpool_m51.jpg`.
 
 ## Slik virker det
 

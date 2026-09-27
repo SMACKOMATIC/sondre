@@ -36,7 +36,8 @@ lokalt. Kort fortalt:
 - `assets/img/` har bildene siden bruker. `assets/textures/` har kart over
   jorden, månen og galakser.
 - `vendor/three/` har Three.js, lagret lokalt og ikke hentet fra CDN.
-- Originalbildene i rota (`NASA.JPG` osv.) brukes ikke lenger av siden.
+- Originalbildene i full oppløsning er fjernet fra repoet 2026-09-27, men ligger i
+  git-historikken. Hent ett tilbake med `git show 19a60e6:NASA.JPG > NASA.JPG`.
 
 Siden bruker JavaScript-moduler og virker ikke ved dobbeltklikk på
 `index.html`. Test med `python -m http.server 8000` fra repoet.
