@@ -47,7 +47,7 @@ a {
   outline-offset: 3px;
 }
 
-html[lang='no'] [data-lang-en],
+html[lang='nb'] [data-lang-en],
 html[lang='en'] [data-lang-no] {
   display: none !important;
 }

@@ -6,13 +6,16 @@ const coarse = matchMedia('(pointer: coarse)').matches;
 const small = coarse || window.innerWidth < 820;
 
 // ---------- Language ----------
-function setLang(lang) {
-  root.lang = lang;
+// Buttons and storage use 'no'/'en'. The html lang attribute uses the BCP 47 code 'nb'.
+let lang = 'no';
+function setLang(next) {
+  lang = next;
+  root.lang = next === 'no' ? 'nb' : 'en';
   document.querySelectorAll('[data-set-lang]').forEach((b) => {
-    b.setAttribute('aria-pressed', String(b.dataset.setLang === lang));
+    b.setAttribute('aria-pressed', String(b.dataset.setLang === next));
   });
   try {
-    localStorage.setItem('lang', lang);
+    localStorage.setItem('lang', next);
   } catch {}
   hudCache.name = null;
 }
@@ -78,7 +81,6 @@ function setText(key, el, text) {
 const fmt = (lang, digits = 0) => new Intl.NumberFormat(lang === 'no' ? 'nb-NO' : 'en-GB', { maximumFractionDigits: digits, minimumFractionDigits: digits });
 
 function updateHUD(t, tel) {
-  const lang = root.lang;
   const idx = Math.round(t);
   setText('ch', hud.ch, `${String(idx).padStart(2, '0')} / ${String(sections.length - 1).padStart(2, '0')}`);
   const s = sections[idx];
@@ -117,10 +119,10 @@ let lastCount = null;
 function updateCounter(loc) {
   const q = esaCountdown(esaProgress(loc));
   const value = Math.round(Math.exp(Math.log(23000) * (1 - q) + Math.log(2) * q));
-  const key = `${value}-${root.lang}`;
+  const key = `${value}-${lang}`;
   if (key !== lastCount) {
     lastCount = key;
-    counterEl.textContent = fmt(root.lang).format(value);
+    counterEl.textContent = fmt(lang).format(value);
     counterWrap.classList.toggle('done', value <= 2);
   }
 }
